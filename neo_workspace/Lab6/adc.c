@@ -16,3 +16,13 @@ void adc_init()
     ADC0_SSCTL3_R = 0x0006; // 12) no TS0 D0, yes IE0 END0
     ADC0_ACTSS_R |= 0x0008; // 13) enable sample sequencer 3
 }
+
+int adc_read(){
+    ADC0_PSSI_R = 0x1;
+
+    while ((ADC0_RIS_R & 0x1) == 0){}
+
+    ADC0_ISC_R = 0x01;
+
+    return ADC0_SSFIFO0_R;
+}

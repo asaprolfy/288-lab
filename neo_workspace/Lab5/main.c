@@ -30,7 +30,7 @@ void main(void){
     //display_and_echo();
     //raw_display_rx();
 
-    interrupt_display_and_echo();
+    //interrupt_display_and_echo();
 
 }
 
