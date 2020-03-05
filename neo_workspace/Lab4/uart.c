@@ -156,7 +156,10 @@ void display_and_echo(){
         }
         else {
             lcd_i = 0;
-            lcd = {};
+            int tmpi = 0;
+            for(tmpi = 0; tmpi < 20; tmpi++){
+                lcd[tmpi] = ' ';
+            }
             lcd_printf("");
             uart_sendByte('\r');
         }
