@@ -6,6 +6,10 @@
 #include "uart.h"
 #include "math.h"
 
+void basic_raw_loop();
+
+void take_manual_raw();
+
 int main() {
     timer_init();
     lcd_init();
@@ -13,14 +17,27 @@ int main() {
     adc_init();
 
     int adc_val;
-    float dist;
+    char snd[20];
+    int rep = 0;
 
-    for(;;){
-        adc_val = adc_read();
+    lcd_printf("initium");
 
-        dist = pow(adc_val, -1.855) * 2E+07;
-        lcd_printf("%f", dist);
+
+
+
+}
+
+void basic_raw_loop() {
+    for (;;) {
+        adc_val = adc_read_raw();
+        sprintf(snd, "%d     %d\r\n", rep++, adc_val);
+        lcd_printf(snd);
+        uart_prints(snd);
+
         timer_waitMillis(100);
     }
+}
+
+void take_manual_raw() {
 
 }

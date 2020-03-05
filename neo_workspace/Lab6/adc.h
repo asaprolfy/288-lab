@@ -14,7 +14,7 @@
 
 void adc_init();
 
-int adc_read();
+int adc_read_raw();
 
 
 
