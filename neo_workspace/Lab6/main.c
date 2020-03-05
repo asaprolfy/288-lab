@@ -10,7 +10,7 @@ void basic_raw_loop();
 
 void manual_raw();
 
-int main() {
+  int main() {
     timer_init();
     lcd_init();
     uart_init();
@@ -45,32 +45,29 @@ void basic_raw_loop() {
 
 void manual_raw() {
 
-    char str[20];
-    char input = 0;
-    int i = 0;
-    int specific_dist;
-    int readings_sum = 0;
-    int final_avg;
+    //char input = 0;
+    for (;;) {
 
-    for (; input != 'q';) {
-        lcd_printf("input measured distance in cm");
-        char input_dist[4];
-        for (i = 0; input != '\r' && i < 4; i++) {
-            input = uart_receiveByte();
-            input_dist[i] = input;
+        char str[20];
+        int i = 0;
+        int readings_sum = 0;
+        int final_avg = 0;
+        char input_dist[3];
+
+        lcd_printf("input the measured distance in cm");
+        for(i = 0; i < 3; i++) {
+            input_dist[i] = uart_receiveByte();
         }
-        specific_dist = atoi(input_dist);
-        lcd_printf("Input dist:  %d", specific_dist);
 
         for(i = 0; i < 100; i++) {
             readings_sum += adc_read_raw();
         }
         final_avg = readings_sum / 100;
 
-        sprintf(str, "%d, %d\r\n", specific_dist, final_avg);
+        sprintf(str, "%s, %d\r\n", input_dist, final_avg);
         uart_prints(str);
 
-        lcd_printf("press return to continue\nor q to quit");
-        while(uart_receiveByte() != '\r');
+        //lcd_printf("press return to continue\nor q to quit");
+        //while(uart_receiveByte() != '\r');
     }
 }
