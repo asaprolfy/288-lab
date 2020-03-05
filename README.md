@@ -2,4 +2,4 @@
 
 ## Rolf Anderson, Alec Meyer, Adam LaRocque
 
-### The code in here under the GPLv3 license
+ *The code in here is protected by the GPLv3 license*
