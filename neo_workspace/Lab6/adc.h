@@ -16,6 +16,4 @@ void adc_init();
 
 int adc_read_raw();
 
-
-
 #endif /* ADC_H_ */

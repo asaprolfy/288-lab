@@ -10,7 +10,11 @@ void basic_raw_loop();
 
 void manual_raw();
 
-  int main() {
+void test_polynomial_logic();
+
+void shift_buff(int arr[], int newval);
+
+int main() {
     timer_init();
     lcd_init();
     uart_init();
@@ -21,7 +25,7 @@ void manual_raw();
     lcd_printf("initium\npress return to continue");
     while(uart_receiveByte() != '\r') {}
 
-    manual_raw();
+    //manual_raw();
 
     lcd_printf("termino");
 
@@ -70,4 +74,32 @@ void manual_raw() {
         //lcd_printf("press return to continue\nor q to quit");
         //while(uart_receiveByte() != '\r');
     }
+}
+
+void test_polynomial_logic() {
+
+    int rolling_buff[100];
+    int rolling_avg = 0;
+    int rolling_sum = 0;
+    int tmp;
+
+    for(int i = 0; i < 100; i++) {
+        tmp = adc_read_raw();
+        rolling_buff[i] = tmp;
+        rolling_sum += tmp;
+    }
+    rolling_avg = rolling_sum / 100;
+
+    for (;;) {
+
+
+    }
+}
+
+void shift_buff(int arr[], int newval) {
+
+    for(int i = 0; i < 99; i++) {
+        arr[i] = arr[i + 1];
+    }
+    arr[99] = newval;
 }
