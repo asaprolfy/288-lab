@@ -12,29 +12,27 @@ void manual_raw();
 
 void test_dist_logic();
 
-float calc_dist_polynom(int x);
+float calc_dist(int x);
 
 void shift_buff(int arr[], int newval);
 
 int main() {
+	
+	// initializers
+	//
     timer_init();
     lcd_init();
     uart_init();
     adc_init();
 
-
-
-    //lcd_printf("initium\npress return to continue");
-    //while(uart_receiveByte() != '\r') {}
-
     //manual_raw();
 
-    test_dist_logic();
-
-    //lcd_printf("termino");
+    test_dist_logic(););
 
 }
 
+// takes raw adc reading and displays it
+//
 void basic_raw_loop() {
 
     int adc_val;
@@ -51,6 +49,22 @@ void basic_raw_loop() {
     }
 }
 
+// this is the function I made to take manual readings of
+// the quantized raw adc value and the actual measured distance
+// 
+// to use this function, fire it up and connect via uart,
+// place the robot at the desired distance and input the
+// distance in cm 
+//
+// the bot will then send back formatted csv data to putty
+// you can save this output and open it in excel to better
+// analyze it
+//
+// NOTE:	the measured distance input MUST be 3 digits long
+//			i.e. for 35 cm enter "030"
+//			the program will only advance when 3 digits have 
+//			been entered
+//
 void manual_raw() {
 
     //char input = 0;
@@ -80,9 +94,22 @@ void manual_raw() {
     }
 }
 
-// y = -9E-06x5 + 0.0024x4 - 0.2432x3 + 12.399x2 - 328.82x + 4571.2
-// ^^ equation from excel line of best fit, 5th order polynomial
+// y = 770675x^(-1.47)
+//
+//		NOTE: THIS FORMULA IS CALLIBRATED FOR BOT 06
+//
+// ^^ equation from excel line of best fit, exponential
 // x is the quantized adc reading
+//
+// this function is a demonstrator for the function to determine 
+// the distance from the detected object to the ~bumper~ of the cybot
+//
+// it uses a rolling average of the last 100 values to 
+// smooth out the inherent variability in the readings
+//
+// this function calculates the distance (a float)
+// and prints it on the lcd and sends it to uart formatted
+// in csv as to permit easy data management in excel
 //
 void test_dist_logic() {
 
@@ -101,7 +128,7 @@ void test_dist_logic() {
         timer_waitMillis(20);
     }
     rolling_avg = rolling_sum / 100;
-    dist = calc_dist_polynom(rolling_avg);
+    dist = calc_dist(rolling_avg);
     lcd_printf("%d    %f", rolling_avg, dist);
 
     for (;; timer_waitMillis(20)) {
@@ -109,7 +136,7 @@ void test_dist_logic() {
         rolling_sum = rolling_sum + tmp - rolling_buff[0];
         rolling_avg = rolling_sum / 100;
         shift_buff(rolling_buff, tmp);
-        dist = calc_dist_polynom(rolling_avg);
+        dist = calc_dist(rolling_avg);
 
 
         sprintf(str, "%d,  %f\r\n", rolling_avg, dist);
@@ -118,6 +145,10 @@ void test_dist_logic() {
     }
 }
 
+// remove value at pos 0, shift all other values down 1
+// e.g. arr[12] = arr[13]
+// insert newval in position 99 (last value)
+//
 void shift_buff(int arr[], int newval) {
 
     int i = 0;
@@ -128,7 +159,9 @@ void shift_buff(int arr[], int newval) {
     arr[99] = newval;
 }
 
-float calc_dist_polynom(int x){
+// y = 770675x^(-1.47)
+//
+float calc_dist(int x){
 
     float result = 770675 * pow(x, -1.47);
     return result;
