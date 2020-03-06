@@ -12,6 +12,8 @@ void manual_raw();
 
 void test_polynomial_logic();
 
+float calc_dist_polynom(int x);
+
 void shift_buff(int arr[], int newval);
 
 int main() {
@@ -22,12 +24,14 @@ int main() {
 
 
 
-    lcd_printf("initium\npress return to continue");
-    while(uart_receiveByte() != '\r') {}
+    //lcd_printf("initium\npress return to continue");
+    //while(uart_receiveByte() != '\r') {}
 
     //manual_raw();
 
-    lcd_printf("termino");
+    test_polynomial_logic();
+
+    //lcd_printf("termino");
 
 }
 
@@ -76,30 +80,55 @@ void manual_raw() {
     }
 }
 
+// y = -9E-06x5 + 0.0024x4 - 0.2432x3 + 12.399x2 - 328.82x + 4571.2
+// ^^ equation from excel line of best fit, 5th order polynomial
+// x is the quantized adc reading
+//
 void test_polynomial_logic() {
 
     int rolling_buff[100];
     int rolling_avg = 0;
     int rolling_sum = 0;
-    int tmp;
+    int tmp = 0;
+    int i = 0;
+    float dist = 0;
+    char str[20];
 
-    for(int i = 0; i < 100; i++) {
+    for(i = 0; i < 100; i++) {
         tmp = adc_read_raw();
         rolling_buff[i] = tmp;
         rolling_sum += tmp;
+        timer_waitMillis(20);
     }
     rolling_avg = rolling_sum / 100;
+    dist = calc_dist_polynom(rolling_avg);
+    lcd_printf("%d    %f", rolling_avg, dist);
 
-    for (;;) {
+    for (;; timer_waitMillis(20)) {
+        tmp = adc_read_raw();
+        rolling_sum = rolling_sum + tmp - rolling_buff[0];
+        rolling_avg = rolling_sum / 100;
+        shift_buff(rolling_buff, tmp);
+        dist = calc_dist_polynom(rolling_avg);
 
-
+        lcd_printf("%d    %f", rolling_avg, dist);
+        sprintf(str, "%d    %f", rolling_avg, dist);
     }
 }
 
 void shift_buff(int arr[], int newval) {
 
-    for(int i = 0; i < 99; i++) {
+    int i = 0;
+
+    for(i = 0; i < 99; i++) {
         arr[i] = arr[i + 1];
     }
     arr[99] = newval;
 }
+
+float calc_dist_polynom(int x){
+
+    float result = 770675 * pow(x, -1.47);
+    return result;
+}
+
