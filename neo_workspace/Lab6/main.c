@@ -10,7 +10,7 @@ void basic_raw_loop();
 
 void manual_raw();
 
-void test_polynomial_logic();
+void test_dist_logic();
 
 float calc_dist_polynom(int x);
 
@@ -29,7 +29,7 @@ int main() {
 
     //manual_raw();
 
-    test_polynomial_logic();
+    test_dist_logic();
 
     //lcd_printf("termino");
 
@@ -84,7 +84,7 @@ void manual_raw() {
 // ^^ equation from excel line of best fit, 5th order polynomial
 // x is the quantized adc reading
 //
-void test_polynomial_logic() {
+void test_dist_logic() {
 
     int rolling_buff[100];
     int rolling_avg = 0;
@@ -111,8 +111,10 @@ void test_polynomial_logic() {
         shift_buff(rolling_buff, tmp);
         dist = calc_dist_polynom(rolling_avg);
 
-        lcd_printf("%d    %f", rolling_avg, dist);
-        sprintf(str, "%d    %f", rolling_avg, dist);
+
+        sprintf(str, "%d,  %f\r\n", rolling_avg, dist);
+        lcd_printf(str);
+        uart_prints(str);
     }
 }
 
