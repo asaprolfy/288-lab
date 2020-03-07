@@ -59,7 +59,8 @@ void uart_init(){
     //
     UART1_CC_R = UART_CC_CS_SYSCLK;
 
-    //UART1_CTL_R = 0x03;
+    // enable rx, tx, and start uart
+    //
     UART1_CTL_R = (UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN);
 }
 

@@ -22,14 +22,23 @@
 #include <inc/tm4c123gh6pm.h>
 #include "driverlib/interrupt.h"
 
+// pointer to val indicating a char has been received
+//
 volatile int *rx_trigger_ptr;
+// pointer to received char
+//
 volatile char *rx_char_ptr;
 
-//
-extern volatile char command_byte; // byte value for special character used as a command
 
+// byte value for special character used as a command
+// i'm never going to use this lmao
 //
-extern volatile int command_flag; // flag to tell the main program a special command was received
+extern volatile char command_byte;
+
+// flag to tell the main program a special command was received
+// never going to use this
+//
+extern volatile int command_flag;
 
 
 // Initialize the UART to communciate between CyBot and PuTTy
