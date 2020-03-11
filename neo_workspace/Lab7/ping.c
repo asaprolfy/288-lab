@@ -183,7 +183,12 @@ float pingdist(){
 
     pulse_wid = fall_e + (overflow << 24) - rise_e;
 
-    return pulse_wid / 903.2;
+
+    // NOTE: the sonar system measures from the sensor to the object, this
+    //       is not terribly useful because the bumper sticks out 4cm in front
+    //       of the sensor; that's why I made this function subtract 4 from the quotient
+    //
+    return pulse_wid / 903.2 - 4;
 }
 
 // returns number of overflows
