@@ -20,6 +20,10 @@
 #include "uart.h"
 #include "math.h"
 
+volatile uint32_t coefficient;
+
+volatile float power;
+
 // init all required registers
 // uses:
 //      adc0
@@ -56,5 +60,14 @@ float calc_dist(int x);
 // insert newval in arr[99]
 //
 void shift_buff(int arr[], int newval);
+
+// used for setting constants in calibration
+//
+void set_coefficient(uint32_t c) {
+    coefficient = c;
+}
+void set_power(float p) {
+    power = p;
+}
 
 #endif /* ADC_H_ */
