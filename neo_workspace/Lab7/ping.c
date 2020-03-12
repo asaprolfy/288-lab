@@ -5,7 +5,7 @@ int ovrflws;
 // initialize timer3b on pb3
 //
 // config t3b to be 16 bit, input capture, edge time, count up,
-// both edges trigger interrupt, 8 bits max out, set priority for both interrupts
+// both edges trigger interrupt, 8 bits prescaler, set priority for both interrupts
 //
 void ping_init(){
 
@@ -17,7 +17,8 @@ void ping_init(){
     //
     SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R1;
 
-    // select alternate 0x08 func for ping sensor
+    // select alternate func for ping sensor
+    // 0x08
     //
     GPIO_PORTB_AFSEL_R |= BIT3;
 
@@ -58,11 +59,13 @@ void ping_init(){
     //
     TIMER3_CTL_R |= 0x0c00;
 
-    // max out 8 bits (24 bit timer now)
+    // set t3b prescale to 8 bits (24 bit timer now)
+    // this basically extends the range of the timer
+    // (this value from lab7 manual)
     //
     TIMER3_TBPR_R = 0xff;
 
-    // max out load
+    // more setting prescaler (from lab7 manual)
     //
     TIMER3_TBILR_R = 0xffff;
 
