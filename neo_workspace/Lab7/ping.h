@@ -44,7 +44,7 @@ volatile uint32_t pulse_wid;
 // initialize timer3b on pb3
 //
 // config t3b to be 16 bit, input capture, edge time, count up,
-// both edges trigger interrupt, 8 bits max out, set priority for both interrupts
+// both edges trigger interrupt, 8 bits prescaler, set priority for both interrupts
 //
 void ping_init();
 
