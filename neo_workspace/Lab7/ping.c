@@ -138,24 +138,42 @@ void send_pulse(){
 //
 void t3b_handler(){
 
+    // check if unmasked capture b event interrupt has occured
+    // 0x400
+    // bit10
+    //
     if (TIMER3_MIS_R & TIMER_MIS_CBEMIS){
 
         if (state == RISE){
+
             //clear capture interrupt flag
+            // 0x400
+            // bit10
+            //
             TIMER3_ICR_R |= TIMER_ICR_CBECINT;
-            //captures time of rising edge event
+            // captures time of rising edge event
+            //
+            // TBPS_R is the prescaler (extra 8 bits)
+            // TBR_R is the timer reading
+            //
             rise_e = ((int) TIMER3_TBPS_R << 16) | TIMER3_TBR_R;
-            //now capturing falling edge
+            // now capturing falling edge
+            //
             state = FALL;
         }
-        else if (state == FALL)
-        {
-            //clear capture interrupt flag
+        else if (state == FALL){
+
+            // clear capture interrupt flag
+            //
             TIMER3_ICR_R |= TIMER_ICR_CBECINT;
-            //capture time of falling edge
+            // capture time of falling edge
+            //
             fall_e = ((int) TIMER3_TBPS_R << 16) | TIMER3_TBR_R;
+            // change state
+            //
             state = DONE;
-            //disable timerB
+            // disable t3b
+            //
             TIMER3_CTL_R &= ~TIMER_CTL_TBEN;
 
         }
