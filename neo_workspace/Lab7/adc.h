@@ -63,11 +63,7 @@ void shift_buff(int arr[], int newval);
 
 // used for setting constants in calibration
 //
-void set_coefficient(uint32_t c) {
-    coefficient = c;
-}
-void set_power(float p) {
-    power = p;
-}
+void set_coefficient(uint32_t c);
+void set_power(float p);
 
 #endif /* ADC_H_ */

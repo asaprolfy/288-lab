@@ -218,3 +218,10 @@ float calc_dist(int x){
     float result = 770675 * pow(x, -1.47);
     return result;
 }
+
+void set_coefficient(uint32_t c) {
+    coefficient = c;
+}
+void set_power(float p) {
+    power = p;
+}
