@@ -42,12 +42,12 @@ void ping_init(){
     // disable timer3b
     // bit 8
     //
-    TIMER3_CTL_R &= ~0x100;
+    TIMER3_CTL_R &= ~BIT8;
 
     // set 16 bit timer config
     // bit 2
     //
-    TIMER3_CFG_R |= 0x04;
+    TIMER3_CFG_R |= BIT2;
 
     // input capture mode, edge time count up (0b0111)
     // bits 0-2, 4
@@ -69,7 +69,7 @@ void ping_init(){
     //
     TIMER3_TBILR_R = 0xffff;
 
-    // clear timerb interrupt capture
+    // clear timer3b interrupt capture
     //
     TIMER3_ICR_R |= 0x400;
 
@@ -209,6 +209,8 @@ float pingdist(){
     // NOTE: the sonar system measures from the sensor to the object, this
     //       is not terribly useful because the bumper sticks out 4cm in front
     //       of the sensor; that's why I made this function subtract 4 from the quotient
+    //
+    //
     //
     return pulse_wid / 903.2 - 4;
 }

@@ -17,7 +17,9 @@
 #ifndef PING_H_
 #define PING_H_
 
+#define BIT2 0x02
 #define BIT3 0x08
+#define BIT8 0x100
 
 #include <inc/tm4c123gh6pm.h>
 #include <stdint.h>
