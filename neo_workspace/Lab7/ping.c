@@ -112,8 +112,9 @@ void send_pulse(){
     //
     GPIO_PORTB_DATA_R |= BIT3;
 
-    // wait 5 us
-    timer_waitMicros(5);
+    // wait 10 microseconds for output to be read
+    //
+    timer_waitMicros(10);
 
     // set PB3 to low
     //
