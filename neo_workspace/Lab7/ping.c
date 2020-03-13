@@ -212,7 +212,11 @@ float pingdist(){
     //
     //
     //
-    return pulse_wid / 903.2 - 4;
+    // return pulse_wid / 903.2 - 4;
+    //
+    // fixed this value
+    //
+    return pulse_wid / 932.945 - 4;
 }
 
 // returns number of overflows
