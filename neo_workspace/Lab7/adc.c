@@ -36,7 +36,7 @@ void adc_init() {
     //
     timer_waitMillis(300);
 
-    // disable ss1
+    // disable ss0
     //
     ADC0_ACTSS_R &= ~0x01;
 
