@@ -17,10 +17,8 @@
 #define SERVO_H_
 
 #include <inc/tm4c123gh6pm.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include "Timer.h"
-#include "lcd.h"
+
 
 // number of clock cycles in 20ms
 // this is the period of t1b
