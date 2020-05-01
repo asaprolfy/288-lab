@@ -23,27 +23,29 @@
 
 // please keep any and all logic and function definitions out of this file
 //
+
+// lab9 checkpoint 1
+//
+void sweep1();
+
+
 int main() {
 	
 	// initializers
 	//
     timer_init();
     lcd_init();
-    //uart_init();
-    //adc_init();
-    //ping_init();
+    uart_init();
+    adc_init();
+    ping_init();
     servo_init();
 
-    servo_move(30);
-    timer_waitMillis(2000);
-    servo_move(60);
-    timer_waitMillis(2000);
-    servo_move(90);
-    timer_waitMillis(2000);
-    servo_move(120);
-    timer_waitMillis(2000);
-    servo_move(150);
-    timer_waitMillis(2000);
-    servo_move(180);
-    timer_waitMillis(2000);
+}
+
+void sweep1() {
+
+    int deg = 0;
+    double ir_dist, ping_dist;
+
+    lcd_printf("Degrees\nIR Distance (cm)\nPing Distance (cm)");
 }

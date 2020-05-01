@@ -116,11 +116,11 @@ int servo_move(float degree) {
 
     // lower 16 bits of match
     //
-    TIMER1_TBMATCHR_R = (320000 - pulsewidth) & 0xFFFF;
+    TIMER1_TBMATCHR_R = (PERIOD - pulsewidth) & 0xFFFF;
 
     // upper 8 bits of match
     //
-    TIMER1_TBPMR_R = (320000 - pulsewidth) >> 16;
+    TIMER1_TBPMR_R = (PERIOD - pulsewidth) >> 16;
 
     // wait to allow servo to move
     //

@@ -52,6 +52,8 @@ void manual_raw();
 //
 void test_dist_logic();
 
+float irdist();
+
 // y = 770675x^(-1.47)
 //
 float calc_dist(int x);

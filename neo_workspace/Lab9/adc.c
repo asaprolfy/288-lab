@@ -197,6 +197,26 @@ void test_dist_logic() {
     }
 }
 
+// same as above but returns value instead of displaying it, doesn't loop
+//
+float irdist() {
+
+    int rolling_avg = 0;
+    int rolling_sum = 0;
+    int tmp = 0;
+    int i = 0;
+    float dist = 0;
+
+    for(i = 0; i < 100; i++) {
+        tmp = adc_read_raw();
+        rolling_sum += tmp;
+        timer_waitMillis(20);
+    }
+    rolling_avg = rolling_sum / 100;
+    dist = calc_dist(rolling_avg);
+    return dist;
+}
+
 // remove value at pos 0, shift all other values down 1
 // e.g. arr[12] = arr[13]
 // insert newval in position 99 (last value)
