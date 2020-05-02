@@ -62,3 +62,7 @@ void sweep() {
         uart_prints(str);
     }
 }
+
+void sweep_detect() {
+
+}
